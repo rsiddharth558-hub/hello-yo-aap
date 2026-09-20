@@ -1,0 +1,24 @@
+name: Build IPA
+on: [push]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.0'
+      - run: |
+          cp lib/main.dart /tmp/main.dart
+                  flutter create . --platforms=ios --project-name hello_yo
+          cp /tmp/main.dart lib/main.dart
+      - run: flutter pub get
+      - run: flutter build ios --release --no-codesign
+      - run: |
+          mkdir Payload
+          cp -R build/ios/iphoneos/Runner.app Payload/
+          zip -r HelloYo-5.11.1.ipa Payload
+      - uses: actions/upload-artifact@v3
+        with:
+          name: HelloYo-IPA
+          path: HelloYo-5.11.1.ipa
