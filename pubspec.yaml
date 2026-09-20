@@ -1,0 +1,11 @@
+name: hello_app
+description: HelloYo for iPhone 5c
+publish_to: 'none'
+version: 5.11.1+51101
+environment:
+  sdk: ">=2.17.0 <4.0.0"
+dependencies:
+  flutter:
+    sdk: flutter
+flutter:
+  uses-material-design: true
